@@ -79,21 +79,26 @@
     </style>
 </head>
 <body>
-    <div class="modal-header">
-        <h1 class="logo">
-            <img src="images/icon_150.png" alt="FindCopy" class="logo-icon">
-            Find and Copy <span class="version">(1.0.0)</span>
-        </h1>
-    </div>
-    <div class="modal-content">
-        <p>Automatically copy the blacked out text on the screen</p>
-    </div>
-    <div class="modal-icons">
-        <div class="flex-container">
-            <div class="flex">
-                <a href="https://google.com" target="_blank">
-                    <i class="fa fa-globe"></i>
-                </a>
+    <div id="pormodo">
+        <div id="instruction">
+            <p><span class="title">Instruction</span></p>
+        </div>
+        <div id="timer">
+            <div id='menu'>
+                <span class="title">Timer</span>
+                <button>Start</button>
+                <button>Stop</button>
+                <button>Modify</button>
+            </div>
+            <div id='info'>
+                <div class="timer-show">
+                    <span>Focus Time</span>
+                    <span id="focusTime" class="time-box">1:1:25:00</span>
+                </div>
+                <div class="timer-show">
+                    <span>Break Time</span>
+                    <span id="breakTime" class="time-box">5:00</span>
+                </div>
             </div>
         </div>
     </div>
