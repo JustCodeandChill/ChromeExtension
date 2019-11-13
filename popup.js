@@ -1,40 +1,33 @@
 //----------Variables
 //Usually 25 minutes each Pormodoro process
-// let focusTime = document.querySelector('#focusTime').innerText;
+var focusTimeElement = document.querySelector('#focusTime');
+var focusTime = focusTimeElement.innerText;
 
-// //Usually 3-5 minutes break after each Pormodoro process
-// let breakTime = document.querySelector('#breakTime').innerText;
+//Usually 3-5 minutes break after each Pormodoro process
+var breakTimeElement = document.querySelector('#breakTime');
+var breakTime = breakTimeElement.innerText;
+var numberOfPormodoroProcess = 0;
 
-// let numberOfPormodoroProcess = 0;
 
 //Store time in array with maximum length 3
-//let focusTimeArray = [], breakTimeArray = [];
-// focusTimeArray = focusTime.split(":");
-// breakTimeArray = breakTime.split(":");
+var focusTimeArray = [], breakTimeArray = [];
+window.focusTimeArray = "global";
+window.breakTimeArray = "global";
+//--------------------------------
 
-// //Limited the length to 3 elements for hours, minutes, second
-// let  arrLength = focusTimeArray.length;
-// if(arrLength > 3){
-//     focusTimeArray.splice( 0, arrLength - 3);
-// }
-
-// //------------
-// focusTimeArray = focusTimeArray.reverse();
-// breakTimeArray = breakTimeArray.reverse();
-//console.log(focusTimeArray);
 
 //-----------Implement
 window.onload = function() {
-    let focusTime = document.querySelector('#focusTime').innerText;
-    log("focusTime",focusTime)
+//     let focusTime = document.querySelector('#focusTime').innerText;
+//     log("focusTime",focusTime)
 
-//Usually 3-5 minutes break after each Pormodoro process
-    let breakTime = document.querySelector('#breakTime').innerText;
-    log("breakTime",breakTime)
-    let numberOfPormodoroProcess = 0;
+// //Usually 3-5 minutes break after each Pormodoro process
+//     let breakTime = document.querySelector('#breakTime').innerText;
+//     log("breakTime",breakTime)
+//     let numberOfPormodoroProcess = 0;
     
-//Store time in array with maximum length 3
-    let focusTimeArray = [], breakTimeArray = [];
+// //Store time in array with maximum length 3
+//     let focusTimeArray = [], breakTimeArray = [];
     getTime(focusTime, breakTime, focusTimeArray, breakTimeArray);
     // log("focusTime",focusTime)
     // log("breakTime",breakTime)
@@ -47,14 +40,19 @@ const isZero = time => {return (time == 0) ? true : false};
 const log = (a=null,message =" ") => console.log(message , a);
 
 const countDownToZero = (timeArray) => {
-    for (i = 0; i < timeArray; ++i)
+    for (i = 0; i < timeArray.length; ++i)
     {
         let time = timeArray[i];
+        console.log(time)
         if (isZero(time)) continue;
         else 
         {
             while (!isZero(time))
+            {
                 time = minusOne(time);
+                //setInterval(updateTime(time), 1000);
+                console.log(time);
+            }            
         }
     }
     return true;
@@ -75,24 +73,35 @@ const limitTimeArrayLength = (timeArray) => {
     return timeArray;
 }
 const reverseTimeArray = (timeArray) => timeArray = timeArray.reverse();
+//-------------------------Redraw function
+const updateTime = (time,focusTime)=>{
+    focusTimeElement.innerText = time;
+    log(focusTimeElement.innerText, "time:");
+    console.log("inside update time")
+    return;
+}
 
+//------------------------
 const getTime = (focusTime,breakTime, focusTimeArray, breakTimeArray) =>{
-    // //
-    // focusTimeArray = focusTime.split(":");
-    // breakTimeArray = breakTime.split(":");
     focusTimeArray = splitTimetoTimeArray(focusTime);
     breakTimeArray = splitTimetoTimeArray(breakTime);
     log( focusTimeArray,"f");
     log( breakTimeArray, "b");
     //Limited the length to 3 elements for hours, minutes, second
     focusTimeArray = limitTimeArrayLength(focusTimeArray);
-    breakTimeArray =limitTimeArrayLength(breakTimeArray);
+    breakTimeArray = limitTimeArrayLength(breakTimeArray);
 
     //------------
     reverseTimeArray(focusTimeArray);
     reverseTimeArray(breakTimeArray);
     log( focusTimeArray,"f");
     log( breakTimeArray, "b");
+
+    //---
+    x = countDownToZero(focusTimeArray);
+    log( focusTime,"f");
+    updateTime("9:000",focusTime);
+    log( x,"x");
 }
 
 
