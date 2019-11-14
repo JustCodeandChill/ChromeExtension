@@ -11,8 +11,8 @@ var numberOfPormodoroProcess = 0;
 
 //Store time in array with maximum length 3
 var focusTimeArray = [], breakTimeArray = [];
-window.focusTimeArray = "global";
-window.breakTimeArray = "global";
+// window.focusTimeArray = "global";
+// window.breakTimeArray = "global";
 //--------------------------------
 
 
@@ -39,20 +39,24 @@ const isZero = time => {return (time == 0) ? true : false};
 
 const log = (a=null,message =" ") => console.log(message , a);
 
+const convertToInteger = (timeInString) =>
+{
+   return parseInt(timeInString);
+}
+
 const countDownToZero = (timeArray) => {
     for (i = 0; i < timeArray.length; ++i)
     {
         let time = timeArray[i];
+        time = convertToInteger(time);
         console.log(time)
         if (isZero(time)) continue;
         else 
         {
-            while (!isZero(time))
-            {
-                time = minusOne(time);
-                //setInterval(updateTime(time), 1000);
-                console.log(time);
-            }            
+            let updateLoop;
+            updateLoop = setInterval(
+                updateTime, 1000,time,i);
+            clearInterval(updateLoop);    
         }
     }
     return true;
@@ -61,6 +65,7 @@ const countDownToZero = (timeArray) => {
 const splitTimetoTimeArray = (time) =>{
     return time.split(":")
 }
+
 
 const limitTimeArrayLength = (timeArray) => {
     let arrLength = timeArray.length;
@@ -74,15 +79,24 @@ const limitTimeArrayLength = (timeArray) => {
 }
 const reverseTimeArray = (timeArray) => timeArray = timeArray.reverse();
 //-------------------------Redraw function
-const updateTime = (time,focusTime)=>{
-    focusTimeElement.innerText = time;
-    log(focusTimeElement.innerText, "time:");
-    console.log("inside update time")
+const updateTime = (time, indexInTimeArray)=>{
+    focusTimeArray[indexInTimeArray] = time;
+    console.log('in update time');
+    // focusTimeElement.innerText = time;
+    while (!isZero(time))
+            {
+                time = minusOne(time);
+                console.log(time)
+                focusTimeArray[indexInTimeArray] = time;
+                console.log(focusTimeArray[indexInTimeArray]);      
+            }  
     return;
-}
+}   
 
 //------------------------
 const getTime = (focusTime,breakTime, focusTimeArray, breakTimeArray) =>{
+    log( focusTimeArray,"f");
+    log( breakTimeArray, "b");
     focusTimeArray = splitTimetoTimeArray(focusTime);
     breakTimeArray = splitTimetoTimeArray(breakTime);
     log( focusTimeArray,"f");
@@ -99,8 +113,8 @@ const getTime = (focusTime,breakTime, focusTimeArray, breakTimeArray) =>{
 
     //---
     x = countDownToZero(focusTimeArray);
-    log( focusTime,"f");
-    updateTime("9:000",focusTime);
+    //log( focusTime,"f");
+    //updateTime("9:000",focusTime);
     log( x,"x");
 }
 
