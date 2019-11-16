@@ -1,3 +1,5 @@
+import {minusOne , isZero, log, convertToInteger, splitTimetoTimeArray, limitTimeArrayLength, reverseTimeArray} 
+from  './helperFunction.js';
 //----------Variables
 //Usually 25 minutes each Pormodoro process
 var focusTimeElement = document.querySelector('#focusTime');
@@ -29,18 +31,13 @@ window.onload = function() {
 // //Store time in array with maximum length 3
 //     let focusTimeArray = [], breakTimeArray = [];
     getTime(focusTime, breakTime, focusTimeArray, breakTimeArray);
-    x = delayOneSecond();
+    let x = delayOneSecond();
     x.then((resolve)=>{updateTimeElement(focusTimeElement,"34");})
     
     // log("focusTime",focusTime)
     // log("breakTime",breakTime)
 }
-//----------- Utilities Functions
-const minusOne = time => {return --time;}
 
-const isZero = time => {return (time == 0) ? true : false};
-
-const log = (a=null,message =" ") => console.log(message , a);
 
 //----------- End of Utilities Functions
 
@@ -52,7 +49,7 @@ const delayOneSecond = () =>{
 }
 
 const countNumberDonwToZeroInThatTimeInterval = (timeArray) => {
-    for (i = 0; i < timeArray.length; ++i)
+    for (let i = 0; i < timeArray.length; ++i)
     {
         let time = timeArray[i]; //The curent time value (minute,second)
         time = convertToInteger(time); //in Int
@@ -83,31 +80,6 @@ const updateTimeElement = (timeElement, time)=>{
 }   
 //-------------------------End of Redraw function
 
-//-------------------Time processing function
-const convertToInteger = (timeInString) =>
-{
-   return parseInt(timeInString);
-}
-
-const splitTimetoTimeArray = (time) =>{
-    return time.split(":")
-}
-
-
-const limitTimeArrayLength = (timeArray) => {
-    let arrLength = timeArray.length;
-    log("arr length", arrLength)
-    //this time array should only have hour:minute:second
-    let maxLength = 3;
-    console.log(timeArray);
-    if(arrLength > maxLength) 
-        timeArray.splice( 0, arrLength - maxLength);
-    return timeArray;
-}
-const reverseTimeArray = (timeArray) => timeArray = timeArray.reverse();
-
-//------------------- ENd of Time processing function
-
 
 //------------------------
 const getTime = (focusTime,breakTime, focusTimeArray, breakTimeArray) =>{
@@ -128,11 +100,11 @@ const getTime = (focusTime,breakTime, focusTimeArray, breakTimeArray) =>{
     log( breakTimeArray, "b");
 
     //---
-    x = countNumberDonwToZeroInThatTimeInterval(focusTimeArray);
+    // x = countNumberDonwToZeroInThatTimeInterval(focusTimeArray);
    
-    //log( focusTime,"f");
+    // //log( focusTime,"f");
     
-    log( x,"x");
+    // log( x,"x");
 }
 
 
