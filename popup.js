@@ -32,34 +32,70 @@ window.onload = function() {
     // log("focusTime",focusTime)
     // log("breakTime",breakTime)
 }
-//----------- Functions
+//----------- Utilities Functions
 const minusOne = time => {return --time;}
 
 const isZero = time => {return (time == 0) ? true : false};
 
 const log = (a=null,message =" ") => console.log(message , a);
 
-const convertToInteger = (timeInString) =>
-{
-   return parseInt(timeInString);
+//----------- End of Utilities Functions
+
+//-------------------------Redraw function
+const delayOneSecond = () =>{
+    return new Promise((resolve, reject)=>{
+        setTimeout(()=>{resolve('1 seconds passed')},1000)
+    })
 }
 
-const countDownToZero = (timeArray) => {
+const countNumberDonwToZeroInThatTimeInterval = (timeArray) => {
     for (i = 0; i < timeArray.length; ++i)
     {
-        let time = timeArray[i];
-        time = convertToInteger(time);
-        console.log(time)
+        let time = timeArray[i]; //The curent time value (minute,second)
+        time = convertToInteger(time); //in Int
+        console.log(time) // see on browser
+
         if (isZero(time)) continue;
         else 
         {
-            let updateLoop;
-            updateLoop = setInterval(
-                updateTime, 1000,time,i);
-            clearInterval(updateLoop);    
+            while (!isZero(time))
+            {
+                console.log('In this countNumberDonwToZeroInThatTimeInterval')
+                log('time', time);
+                let promise = delayOneSecond();
+                promise.then(resolve=>console.log(resolve),reject=>console.log(reject));
+                --time;
+                // let updateLoop;
+                // updateLoop = setInterval(
+                //     updateTime, 1000,time,i);
+                // clearInterval(updateLoop);    
+                console.log('End of this loop in, begin with', time);
+            }
         }
     }
     return true;
+}
+
+
+const updateTime = (time, indexInTimeArray)=>{
+    focusTimeArray[indexInTimeArray] = time;
+    console.log('in update time');
+    // focusTimeElement.innerText = time;
+    while (!isZero(time))
+            {
+                time = minusOne(time);
+                console.log(time)
+                focusTimeArray[indexInTimeArray] = time;
+                console.log(focusTimeArray[indexInTimeArray]);      
+            }  
+    return;
+}   
+//-------------------------End of Redraw function
+
+//-------------------Time processing function
+const convertToInteger = (timeInString) =>
+{
+   return parseInt(timeInString);
 }
 
 const splitTimetoTimeArray = (time) =>{
@@ -78,20 +114,9 @@ const limitTimeArrayLength = (timeArray) => {
     return timeArray;
 }
 const reverseTimeArray = (timeArray) => timeArray = timeArray.reverse();
-//-------------------------Redraw function
-const updateTime = (time, indexInTimeArray)=>{
-    focusTimeArray[indexInTimeArray] = time;
-    console.log('in update time');
-    // focusTimeElement.innerText = time;
-    while (!isZero(time))
-            {
-                time = minusOne(time);
-                console.log(time)
-                focusTimeArray[indexInTimeArray] = time;
-                console.log(focusTimeArray[indexInTimeArray]);      
-            }  
-    return;
-}   
+
+//------------------- ENd of Time processing function
+
 
 //------------------------
 const getTime = (focusTime,breakTime, focusTimeArray, breakTimeArray) =>{
@@ -112,7 +137,7 @@ const getTime = (focusTime,breakTime, focusTimeArray, breakTimeArray) =>{
     log( breakTimeArray, "b");
 
     //---
-    x = countDownToZero(focusTimeArray);
+    x = countNumberDonwToZeroInThatTimeInterval(focusTimeArray);
     //log( focusTime,"f");
     //updateTime("9:000",focusTime);
     log( x,"x");
