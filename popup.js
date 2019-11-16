@@ -8,31 +8,21 @@ from  './helperFunction.js';
 window.onload = function() {
     //----------Variables
 //Usually 25 minutes each Pormodoro process
-var focusTimeElement = document.querySelector('#focusTime');
-var focusTime = focusTimeElement.innerText;
+    let focusTimeElement = document.querySelector('#focusTime');
+    let focusTime = focusTimeElement.innerText;
 
-//Usually 3-5 minutes break after each Pormodoro process
-var breakTimeElement = document.querySelector('#breakTime');
-var breakTime = breakTimeElement.innerText;
-var numberOfPormodoroProcess = 0;
+    //Usually 3-5 minutes break after each Pormodoro process
+    let breakTimeElement = document.querySelector('#breakTime');
+    let breakTime = breakTimeElement.innerText;
+    let numberOfPormodoroProcess = 0;
 
 
 //Store time in array with maximum length 3
-var focusTimeArray = [], breakTimeArray = [];
-//     let focusTime = document.querySelector('#focusTime').innerText;
-//     log("focusTime",focusTime)
-
-// //Usually 3-5 minutes break after each Pormodoro process
-//     let breakTime = document.querySelector('#breakTime').innerText;
-//     log("breakTime",breakTime)
-//     let numberOfPormodoroProcess = 0;
-    
-// //Store time in array with maximum length 3
-//     let focusTimeArray = [], breakTimeArray = [];
-    getTime(focusTime, breakTime, focusTimeArray, breakTimeArray);
-    countNumberDonwToZeroInThatTimeInterval(focusTimeArray)
-    let x = delayOneSecond();
-    x.then((resolve)=>{updateTimeElement(focusTimeElement,"34");})
+    let focusTimeArray = [], breakTimeArray = [];
+    [focusTimeArray,breakTimeArray] = getTime(focusTime, breakTime, focusTimeArray, breakTimeArray);
+    countNumberDonwToZeroInThatTimeInterval(focusTimeArray, focusTimeElement)
+    // let x = delayOneSecond();
+    // x.then((resolve)=>{updateTimeElement(focusTimeElement,"34");})
 }
 
 
@@ -40,30 +30,36 @@ var focusTimeArray = [], breakTimeArray = [];
 
 //-------------------------Redraw function
 const delayOneSecond = () =>{
+    console.log('in delay 1 sec')
     return new Promise((resolve, reject)=>{
         setTimeout(()=>{resolve('1 seconds had passed')},1000)
     })
 }
 
-const countNumberDonwToZeroInThatTimeInterval = (timeArray) => {
+
+const countNumberDonwToZeroInThatTimeInterval = (timeArray,timeElement) => {
     for (let i = 0; i < timeArray.length; ++i)
     {
         let time = timeArray[i]; //The curent time value (minute,second)
         time = convertToInteger(time); //in Int
         console.log(time, 'asdasd') // see on browser
 
-        if (isZero(time)) continue;
+        if (isZero(time)) {updateTimeArray(timeArray, i, time);continue}
         else 
         {
             {
                 while (!isZero(time))
                 {
-                    console.log('In this countNumberDonwToZeroInThatTimeInterval')
+                    console.log('-----In this countNumberDonwToZeroInThatTimeInterval')
                     log('time', time);
                     --time;  
-                    updateTimeArray(focusTimeArray, i, time)
-                    log(focusTimeArray,"dcT");
+                    updateTimeArray(timeArray, i, time)
+                    log(timeArray,"dcT");
+                    
+                    delayOneSecond().then((resolve)=>{updateTimeElement(timeElement,time)})
+                    updateTimeElement(timeElement,time)
                     console.log('End of this loop in, begin with', time);
+                    
                 }
             }
         }
@@ -102,13 +98,7 @@ const getTime = (focusTime,breakTime, focusTimeArray, breakTimeArray) =>{
     reverseTimeArray(breakTimeArray);
     log( focusTimeArray,"f");
     log( breakTimeArray, "b");
-
-    //---
-    // x = countNumberDonwToZeroInThatTimeInterval(focusTimeArray);
-   
-    // //log( focusTime,"f");
-    
-    // log( x,"x");
+    return [focusTimeArray, breakTimeArray];
 }
 
 
