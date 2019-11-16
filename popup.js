@@ -21,6 +21,21 @@ window.onload = function() {
     let focusTimeArray = [], breakTimeArray = [];
     [focusTimeArray,breakTimeArray] = getTime(focusTime, breakTime, focusTimeArray, breakTimeArray);
     countNumberDonwToZeroInThatTimeInterval(focusTimeArray, focusTimeElement)
+    // let x= 10;
+    // while (x > 0)
+    // {
+    //     delayOneSecond().then((resolve)=>this.console.log(resolve));
+    //     x--;
+    // }
+    delayOneSecond()
+        .then((resolve)=>{this.console.log(resolve)
+            return new Promise((resolve, reject)=>{
+                setTimeout(()=>{resolve('1 seconds had passed')},2000)
+            })
+        })
+        .then((resolve)=>this.console.log(resolve))
+        .then((resolve)=>this.console.log(resolve));
+    this.console.log('After 10 sec')
     // let x = delayOneSecond();
     // x.then((resolve)=>{updateTimeElement(focusTimeElement,"34");})
 }
@@ -32,7 +47,7 @@ window.onload = function() {
 const delayOneSecond = () =>{
     console.log('in delay 1 sec')
     return new Promise((resolve, reject)=>{
-        setTimeout(()=>{resolve('1 seconds had passed')},1000)
+        setTimeout(()=>{resolve('1 seconds had passed')},2000)
     })
 }
 
