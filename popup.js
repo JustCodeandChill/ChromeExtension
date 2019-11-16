@@ -1,6 +1,12 @@
 import {minusOne , isZero, log, convertToInteger, splitTimetoTimeArray, limitTimeArrayLength, reverseTimeArray} 
 from  './helperFunction.js';
-//----------Variables
+
+//--------------------------------
+
+
+//-----------Implement
+window.onload = function() {
+    //----------Variables
 //Usually 25 minutes each Pormodoro process
 var focusTimeElement = document.querySelector('#focusTime');
 var focusTime = focusTimeElement.innerText;
@@ -13,13 +19,6 @@ var numberOfPormodoroProcess = 0;
 
 //Store time in array with maximum length 3
 var focusTimeArray = [], breakTimeArray = [];
-// window.focusTimeArray = "global";
-// window.breakTimeArray = "global";
-//--------------------------------
-
-
-//-----------Implement
-window.onload = function() {
 //     let focusTime = document.querySelector('#focusTime').innerText;
 //     log("focusTime",focusTime)
 
@@ -31,11 +30,9 @@ window.onload = function() {
 // //Store time in array with maximum length 3
 //     let focusTimeArray = [], breakTimeArray = [];
     getTime(focusTime, breakTime, focusTimeArray, breakTimeArray);
+    countNumberDonwToZeroInThatTimeInterval(focusTimeArray)
     let x = delayOneSecond();
     x.then((resolve)=>{updateTimeElement(focusTimeElement,"34");})
-    
-    // log("focusTime",focusTime)
-    // log("breakTime",breakTime)
 }
 
 
@@ -53,25 +50,31 @@ const countNumberDonwToZeroInThatTimeInterval = (timeArray) => {
     {
         let time = timeArray[i]; //The curent time value (minute,second)
         time = convertToInteger(time); //in Int
-        console.log(time) // see on browser
+        console.log(time, 'asdasd') // see on browser
 
         if (isZero(time)) continue;
         else 
         {
             {
-                console.log('In this countNumberDonwToZeroInThatTimeInterval')
-                log('time', time);
-                // let promise = delayOneSecond();
-                // promise.then(resolve=>console.log(resolve),reject=>console.log(reject));
-                // --time;
-                --time;  
-                console.log('End of this loop in, begin with', time);
+                while (!isZero(time))
+                {
+                    console.log('In this countNumberDonwToZeroInThatTimeInterval')
+                    log('time', time);
+                    --time;  
+                    updateTimeArray(focusTimeArray, i, time)
+                    log(focusTimeArray,"dcT");
+                    console.log('End of this loop in, begin with', time);
+                }
             }
         }
     }
     return true;
 }
 
+const updateTimeArray = (timeArray,indexInTimeArray, updateTime)=>{
+    log('In update tiem array');
+    return timeArray[indexInTimeArray] = updateTime;
+}
 
 const updateTimeElement = (timeElement, time)=>{
     log('In update time element', time);
@@ -83,6 +86,7 @@ const updateTimeElement = (timeElement, time)=>{
 
 //------------------------
 const getTime = (focusTime,breakTime, focusTimeArray, breakTimeArray) =>{
+    log("Initilization");
     log( focusTimeArray,"f");
     log( breakTimeArray, "b");
     focusTimeArray = splitTimetoTimeArray(focusTime);

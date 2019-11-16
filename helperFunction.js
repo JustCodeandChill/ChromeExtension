@@ -3,9 +3,10 @@ const minusOne = time => {return --time;}
 
 const isZero = time => {return (time == 0) ? true : false};
 
-const log = (a=null,message =" ") => console.log(message , a);
+const log = (value=null,message =" ") => console.log(message , value);
 
 const convertToInteger = (timeInString) => parseInt(timeInString);
+//----------- ENd of Utilities Functions
 
 //-------------------Time processing function
 const splitTimetoTimeArray = (time) =>{
