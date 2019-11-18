@@ -1,4 +1,6 @@
-import {minusOne , isZero, log, convertToInteger, splitTimetoTimeArray, limitTimeArrayLength, reverseTimeArray} 
+import {minusOne , isZero, log, convertToInteger, 
+    splitTimetoTimeArray, limitTimeArrayLength, 
+    reverseTimeArray, convertTimeArrayToInteger, timeInSecond} 
 from  './helperFunction.js';
 
 //--------------------------------
@@ -9,17 +11,17 @@ window.onload = function() {
     //----------Variables
 //Usually 25 minutes each Pormodoro process
     let focusTimeElement = document.querySelector('#focusTime');
-    let focusTime = focusTimeElement.innerText;
+    let focusTime
 
     //Usually 3-5 minutes break after each Pormodoro process
     let breakTimeElement = document.querySelector('#breakTime');
-    let breakTime = breakTimeElement.innerText;
+    let breakTime
     let numberOfPormodoroProcess = 0;
 
 
 //Store time in array with maximum length 3
     let focusTimeArray = [], breakTimeArray = [];
-    [focusTimeArray,breakTimeArray] = getTime(focusTime, breakTime, focusTimeArray, breakTimeArray);
+    [focusTimeArray, breakTimeArray, focusTime, breakTime] = getTime(focusTimeElement, breakTimeElement);
     countNumberDonwToZeroInThatTimeInterval(focusTimeArray, focusTimeElement)
     // let x= 10;
     // while (x > 0)
@@ -96,12 +98,14 @@ const updateTimeElement = (timeElement, time)=>{
 
 
 //------------------------
-const getTime = (focusTime,breakTime, focusTimeArray, breakTimeArray) =>{
+const getTime = (focusTimeElement,breakTimeElement) =>{
+    let focusTimeArray = [], breakTimeArray = [];
+    let focusTime, breakTime;
     log("Initilization");
     log( focusTimeArray,"f");
     log( breakTimeArray, "b");
-    focusTimeArray = splitTimetoTimeArray(focusTime);
-    breakTimeArray = splitTimetoTimeArray(breakTime);
+    focusTimeArray = splitTimetoTimeArray(focusTimeElement.innerText);
+    breakTimeArray = splitTimetoTimeArray(breakTimeElement.innerText);
     log( focusTimeArray,"f");
     log( breakTimeArray, "b");
     //Limited the length to 3 elements for hours, minutes, second
@@ -111,9 +115,20 @@ const getTime = (focusTime,breakTime, focusTimeArray, breakTimeArray) =>{
     //------------
     reverseTimeArray(focusTimeArray);
     reverseTimeArray(breakTimeArray);
+
+    //----Translate time to Int
+    convertTimeArrayToInteger(focusTimeArray);
+    convertTimeArrayToInteger(breakTimeArray); 
+
+    //----Total time in second
+    focusTime = timeInSecond(focusTimeArray);
+    breakTime = timeInSecond(breakTimeArray);
+
     log( focusTimeArray,"f");
     log( breakTimeArray, "b");
-    return [focusTimeArray, breakTimeArray];
+    log( focusTime,"ft");
+    log( breakTime, "bt");
+    return [focusTimeArray, breakTimeArray, focusTime, breakTime];
 }
 
 
